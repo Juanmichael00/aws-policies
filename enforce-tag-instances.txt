@@ -1,0 +1,53 @@
+{
+	"Version": "2012-10-17",
+	"Statement": [
+		{
+			"Sid": "ForceTagging",
+			"Effect": "Deny",
+			"Action": "ec2:RunInstances",
+			"Resource": "arn:aws:ec2:*:*:instance/*",
+			"Condition": {
+				"Null": {
+					"aws:RequestTag/diretoria-cc": "true",
+					"aws:RequestTag/projeto": "true",
+					"aws:RequestTag/finalidade": "true"
+				},
+				"StringNotEquals": {
+					"aws:RequestTag/finalidade": [
+						"producao",
+						"homologacao",
+						"teste",
+						"dr"
+					],
+					"aws:RequestTag/projeto": [
+						"salaryfits",
+						"enomina",
+						"zetra",
+						"teste",
+						"dr"
+					],
+					"aws:RequestTag/diretoria-cc": [
+						"dgrc",
+						"tecnologia",
+						"presidencia-tecnologia",
+						"presidencia-comercial",
+						"tecnologia-internacional",
+						"teste",
+						"dr"
+					]
+				}
+			}
+		},
+		{
+			"Sid": "AllowNameTag",
+			"Effect": "Allow",
+			"Action": "ec2:RunInstances",
+			"Resource": "arn:aws:ec2:*:*:instance/*",
+			"Condition": {
+				"Null": {
+					"aws:RequestTag/Name": "true"
+				}
+			}
+		}
+	]
+}
