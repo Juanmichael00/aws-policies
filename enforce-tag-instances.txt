@@ -9,7 +9,6 @@
 			"Condition": {
 				"Null": {
 					"aws:RequestTag/cost-center": "true",
-					"aws:RequestTag/project": "true",
 					"aws:RequestTag/team": "true"
 				},
 				"StringNotEquals": {
