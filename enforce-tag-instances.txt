@@ -8,30 +8,30 @@
 			"Resource": "arn:aws:ec2:*:*:instance/*",
 			"Condition": {
 				"Null": {
-					"aws:RequestTag/diretoria-cc": "true",
-					"aws:RequestTag/projeto": "true",
-					"aws:RequestTag/finalidade": "true"
+					"aws:RequestTag/cost-center": "true",
+					"aws:RequestTag/project": "true",
+					"aws:RequestTag/team": "true"
 				},
 				"StringNotEquals": {
-					"aws:RequestTag/finalidade": [
-						"producao",
-						"homologacao",
+					"aws:RequestTag/team": [
+						"qa",
+						"cloud",
 						"teste",
 						"dr"
 					],
-					"aws:RequestTag/projeto": [
-						"salaryfits",
-						"enomina",
-						"zetra",
+					"aws:RequestTag/project": [
+						"project1",
+						"project2",
+						"project3",
 						"teste",
 						"dr"
 					],
-					"aws:RequestTag/diretoria-cc": [
-						"dgrc",
-						"tecnologia",
-						"presidencia-tecnologia",
-						"presidencia-comercial",
-						"tecnologia-internacional",
+					"aws:RequestTag/cost-center": [
+						"a1",
+						"bdd3",
+						"ac56",
+						"aws45",
+						"sawd456",
 						"teste",
 						"dr"
 					]
