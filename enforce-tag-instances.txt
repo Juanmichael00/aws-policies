@@ -19,13 +19,6 @@
 						"teste",
 						"dr"
 					],
-					"aws:RequestTag/project": [
-						"project1",
-						"project2",
-						"project3",
-						"teste",
-						"dr"
-					],
 					"aws:RequestTag/cost-center": [
 						"a1",
 						"bdd3",
