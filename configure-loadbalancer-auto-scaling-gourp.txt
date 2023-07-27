@@ -1,0 +1,30 @@
+Configurar um Application Load Balancer com Auto Scaling Group (Use instância AmazonLinux2)
+
+1 - Crie o sg da ec2 permitindo o trafego na porta 80 do sg do alb e um sg ALB permitindo trafego 0.0.0.0/0 na porta 80
+
+2 - Crie um Launch template usando o sg da ec2, ami linux2, tipo de instância e cole seu script no user data
+
+3 - Criar um ALB usando 2 az´s, 2 subredes publicas, sg alb criado, com tg HTTP (health check /index.html)
+
+4 - Criar um Auto Scaling usando seu launch template, usando a mesma vpc e subnetes do alb,  atache o alb, habilite o health check for elb,
+min capacidade: 2
+max capacidade: 4
+capacidade desejada: 2
+habilite o monitoramento do cloud watch...
+policy scaling: target tracking scaling policy (target value 75%) 
+
+
+Pegue o dns do seu loadbalancer e teste, mate uma maquina do console ec2 e espere e notará que será lançada uma em seu lugar, ou teste sua cpu pra execeder 75 % que subirá mais uma ec2
+
+
+
+## User Data
+
+#!bin/bash
+yum update -y
+yum install -y httpd.x86_64
+systemctl start httpd.service
+systemctl enable httpd.service
+echo "<html><body><h2>Teste ALB com Auto Scaling Groups </h2><br> <h3>Endreço: $(hostname -f)</h3></body></html>" > /var/www/html/index.html
+
+##
