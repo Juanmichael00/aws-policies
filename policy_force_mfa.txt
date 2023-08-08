@@ -1,0 +1,101 @@
+Política IAM para restringir acesso aos recursos da AWS par usuários sem MFA habilitado.
+
+
+
+
+    1: Faça login no Console de Gerenciamento da AWS como um usuário com credenciais de administrador.
+    2: Abra o console do IAM.
+    3: No painel de navegação, escolha Políticas e, em seguida, Criar política.
+    4: Selecione a opção JSON e insira sua política.
+    5: Crie um grupo , ex: Force_MFA e atache sua política 
+    6: Adicione os usuários que deseja exigir a política no grupo criado.
+
+Policy:
+
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AllowViewAccountInfo",
+            "Effect": "Allow",
+            "Action": [
+                "iam:GetAccountPasswordPolicy",
+                "iam:ListVirtualMFADevices"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "AllowManageOwnPasswords",
+            "Effect": "Allow",
+            "Action": [
+                "iam:ChangePassword",
+                "iam:GetUser"
+            ],
+            "Resource": "arn:aws:iam::*:user/${aws:username}"
+        },
+        {
+            "Sid": "AllowManageOwnAccessKeys",
+            "Effect": "Allow",
+            "Action": [
+                "iam:CreateAccessKey",
+                "iam:DeleteAccessKey",
+                "iam:ListAccessKeys",
+                "iam:UpdateAccessKey"
+            ],
+            "Resource": "arn:aws:iam::*:user/${aws:username}"
+        },
+        {
+            "Sid": "AllowManageOwnVirtualMFADevice",
+            "Effect": "Allow",
+            "Action": [
+                "iam:CreateVirtualMFADevice"
+            ],
+            "Resource": "arn:aws:iam::*:mfa/${aws:username}"
+        },
+        {
+            "Sid": "AllowManageOwnUserMFA",
+            "Effect": "Allow",
+            "Action": [
+                "iam:EnableMFADevice",
+                "iam:ListMFADevices",
+                "iam:ResyncMFADevice"
+            ],
+            "Resource": "arn:aws:iam::*:user/${aws:username}"
+        },
+        {
+            "Sid": "DenyAllExceptListedIfNoMFA",
+            "Effect": "Deny",
+            "NotAction": [
+                "iam:CreateVirtualMFADevice",
+                "iam:EnableMFADevice",
+                "iam:GetUser",
+                "iam:ChangePassword",
+                "iam:ListMFADevices",
+                "iam:ListVirtualMFADevices",
+                "iam:ResyncMFADevice",
+                "sts:GetSessionToken"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "Bool": {
+                    "aws:MultiFactorAuthPresent": "false"
+                }
+            }
+        }
+    ]
+}
+
+
+
+
+O que essa política faz?
+
+A instrução "AllowViewAccountInfo" permite que o usuário visualize informações no nível da conta como visualizar os requisitos de senha e visualizar os dispositivos MFA.
+
+A instrução "AllowManageOwnAccessKeys" permite que o usuário crie, atualize e exclua as próprias chaves de acesso.
+
+A instrução "AllowManageOwnVirtualMFADevice" permite que o usuário crie e atualize o próprio dispositivo MFA virtual.
+
+A instrução "DenyAllExceptListedIfNoMFA" nega acesso a todas as ações em todos os serviços da AWS, exceto algumas ações listadas, mas somente se o usuário não estiver conectado com MFA. 
+
+

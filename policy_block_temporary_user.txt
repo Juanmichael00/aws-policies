@@ -1,0 +1,28 @@
+Política para bloqueio de acesso aos recursos AWS
+
+Para desativar um usuário, crie e anexe uma política que negue ao usuário acesso à AWS. Você pode restaurar o acesso do usuário posteriormente.
+
+Aqui estão dois exemplos de políticas de negação que você pode anexar a um usuário para negar seu acesso.
+
+A política a seguir não inclui um limite de tempo. Você deve remover a política para restaurar o acesso do usuário.
+
+Política:
+
+
+
+
+{
+  "Version": "2012-10-17",
+  "Statement": [ 
+      {
+        "Effect": "Deny",
+        "Action": "*",
+        "Resource": "*"
+      } 
+   ]
+}
+
+
+
+
+Obs: Na Política de linha acima, estamos bloqueando o acesso a todos recursos das AWS
