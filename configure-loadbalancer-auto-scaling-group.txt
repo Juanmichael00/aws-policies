@@ -3,6 +3,14 @@ Configurar um Application Load Balancer com Auto Scaling Group (Use instância A
 1 - Crie o sg da ec2 permitindo o trafego na porta 80 do sg do alb e um sg ALB permitindo trafego 0.0.0.0/0 na porta 80
 
 2 - Crie um Launch template usando o sg da ec2, ami linux2, tipo de instância e cole seu script no user data
+exemplo:
+
+#!bin/bash
+yum update -y
+yum install -y httpd.x86_64
+systemctl start httpd.service
+systemctl enable httpd.service
+echo "<html><body><h2>Teste ALB com Auto Scaling Groups </h2><br> <h3>Endreço: $(hostname -f)</h3></body></html>" > /var/www/html/index.html
 
 3 - Criar um ALB usando 2 az´s, 2 subredes publicas, sg alb criado, com tg HTTP (health check /index.html)
 
