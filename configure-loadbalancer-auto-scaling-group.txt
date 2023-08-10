@@ -12,7 +12,7 @@ systemctl start httpd.service
 systemctl enable httpd.service
 echo "<html><body><h2>Teste ALB com Auto Scaling Groups </h2><br> <h3>Endreço: $(hostname -f)</h3></body></html>" > /var/www/html/index.html
 
-3 - Criar um ALB usando 2 az´s, 2 subredes publicas, sg alb criado, com tg HTTP (health check /index.html)
+3 - Crie um Target Group sem atachar instância, crie um ALB usando 2 az´s, 2 subredes publicas, sg alb criado, defina o tg HTTP criado (health check /index.html)
 
 4 - Criar um Auto Scaling usando seu launch template, usando a mesma vpc e subnetes do alb,  atache o alb, habilite o health check for elb,
 min capacidade: 2
