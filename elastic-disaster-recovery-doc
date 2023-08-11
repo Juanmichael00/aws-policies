@@ -1,0 +1,50 @@
+Para instalação do AWS DRS (Ubuntu 20.04)
+
+Instale o Python:
+
+sudo apt update
+sudo apt install software-properties-common
+
+sudo add-apt-repository ppa:deadsnakes/ppa
+
+Press [ENTER] to continue 
+
+sudo apt install python3.8
+python3.8 --version
+
+Crie o user CLI com as permissões necessárias para instalação do Agent:
+Atache a seguinte policie ao user: "AWSElasticDisasterRecoveryAgentInstallationPolicy"
+
+
+
+Para instalação do Agent:
+
+1 - Download do Agent (linux):
+Norte Virgínia:
+
+wget -O ./aws-replication-installer-init.py https://aws-elastic-disaster-recovery-us-east-1.s3.us-east-1.amazonaws.com/latest/linux/aws-replication-installer-init.py
+
+2 - Intale o Agent
+sudo python3 aws-replication-installer-init.py
+
+3 Autentique com seu usuário selecionando a devida região...
+(irá pedir a região, acess key e secret key do user programático criado )
+
+nome agent:
+aws-replication-agent
+
+
+
+
+
+Para remover:
+
+Linux
+
+As root, cd /var/lib/aws-replication-agent
+
+Run the following commands from that folder:
+
+./stopAgent.sh
+
+./install_agent --remove
