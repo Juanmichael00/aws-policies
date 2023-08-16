@@ -1,0 +1,39 @@
+LightSail  
+
+--Criando uma aplicação Wordpress
+--Criando um Banco de Dados MySQL
+--Integrando seu banco de dados MySQL com Wordpress no Lightsail
+
+- Para obter senha de acesso ao console WP:
+Acesse o server e execute: cat /cat /home/bitnami/bitnami_application_password
+
+- To test connection:
+mysql -h "host" -u "usuario" -p 
+
+
+- Para integração do banco Mysql com a instancia WP, execute o comando abaixo:
+
+sudo mysqldump -u root --databases bitnami_wordpress --single-transaction --compress --order-by-primary -p$(cat /home/bitnami/bitnami_application_password) | sudo mysql -u nome-user --host endpoint-name --password
+
+
+- Crie o arquivo de configuração "backup" por segurança:
+cp /opt/bitnami/wordpress/wp-config.php /opt/bitnami/wordpress/wp-config.php-backup
+
+- Edite o arquivo "/opt/bitnami/wordpress/wp-config.php"
+
+Altere os itens:
+DB_USER - seu usuário de acesso ao banco
+DB_PASSWORD - sua senha
+DB_HOST -  seu endpoint
+
+
+- Restart sua instância
+
+- Crie um usuário de teste no console do WP
+
+- Verifique se ocorreu bem a integração...
+mysql -h "host" -u "usuario" -p 
+show databases;
+use bitnami_wordpress;
+show tables;
+select * from bitnami_wordpress.wp_users;
